@@ -8,7 +8,47 @@ const createUser = async(data:User): Promise<User> => {
     return result;
 }
 
+const getAllUsers = async(): Promise<User[]> => {
+    const result = await prisma.user.findMany();
+    return result;
+}
+
+
+const getSingleUser = async(id:string): Promise<User | null> => {
+    const result = await prisma.user.findUnique({
+        where: {
+            id
+        }
+    })
+    return result;
+}
+
+
+const updateUser = async(id:string,data: Partial<User>): Promise<User | null> => {
+    const result = await prisma.user.update({
+        where: {
+            id
+        },
+        data
+    });
+    return result
+}
+const deleteUser = async( id:string): Promise<User | null> => {
+    const result = await prisma.user.delete({
+        where: {
+            id
+        }
+    });
+    return result
+}
+
+
+
 
 export const userService = {
-    createUser
+    createUser,
+    getAllUsers,
+    getSingleUser,
+    updateUser,
+    deleteUser
 }
