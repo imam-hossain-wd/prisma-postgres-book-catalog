@@ -9,3 +9,85 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id               String            @id @default(uuid())
+  name             String
+  email            String
+  password         String
+  role             UserRole
+  contactNo        String            @map("contact_no")
+  address          String
+  profileImg       String            @map("profile_img")
+  reviewAndRatings ReviewAndRating[]
+  orders           Order[]
+
+  @@map("users")
+}
+
+enum UserRole {
+  ADMIN
+  CUSTOMER
+}
+
+model Category {
+  id    String @id @default(uuid())
+  title String
+  books Book[]
+
+  @@map("categories")
+}
+
+model Book {
+  id                String            @id @default(uuid())
+  title             String
+  author            String
+  price             Float
+  genre             String
+  publicationDate   String            @map("publication_date")
+  categoryId        String            @map("category_id")
+  category          Category          @relation(fields: [categoryId], references: [id])
+  reviewsAndRatings ReviewAndRating[]
+  orderedBook       OrderedBook[]
+
+  @@map("books")
+}
+
+model ReviewAndRating {
+  id     String @id @default(uuid())
+  review String
+  rating String
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id])
+  bookId String @map("book_id")
+  book   Book   @relation(fields: [bookId], references: [id])
+
+  @@map("reviews_and_ratings")
+}
+
+model Order {
+  id           String        @id @default(uuid())
+  userId       String        @map("user_id")
+  user         User          @relation(fields: [userId], references: [id])
+  orderedBooks String        @map("ordered_books")
+  status       OrderStatus
+  createdAt    DateTime      @default(now())
+  orderedBook  OrderedBook[]
+
+  @@map("orders")
+}
+
+enum OrderStatus {
+  PENDING
+  SHIPPED
+  DEVIVERED
+}
+
+model OrderedBook {
+  id       String @id @default(uuid())
+  orderId  String @map("order_id")
+  order    Order  @relation(fields: [orderId], references: [id])
+  bookId   String @map("book_id")
+  book     Book   @relation(fields: [bookId], references: [id])
+  quantity Int
+}
