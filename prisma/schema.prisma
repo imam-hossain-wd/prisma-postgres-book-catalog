@@ -38,6 +38,7 @@ model Category {
   @@map("categories")
 }
 
+
 model Book {
   id                String            @id @default(uuid())
   title             String

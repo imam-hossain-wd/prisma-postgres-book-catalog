@@ -1,9 +1,13 @@
 import { Router } from "express";
 import { userController } from "./user.controller";
+import validateRequest from "../../middlewares/validationRequest";
+import { UserValidation } from "./user.validation";
 
 const router = Router();
 
-router.post('/create-user', userController.createUser)
+router.post('/create-user',
+validateRequest(UserValidation.createUserZodSchema)
+,userController.createUser)
 router.get('/', userController.getAllUsers)
 router.get('/:id', userController.getSingleUser)
 router.patch('/:id', userController.updateUser)
