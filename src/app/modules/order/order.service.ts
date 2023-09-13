@@ -1,10 +1,11 @@
-import {Order }from '@prisma/client';
+
+import { Order } from '@prisma/client';
 import prisma from '../../../shared/prisma';
 
 
-const createOrder = async(data:any) => {
 
-    console.log(data, 'order s');
+const createOrder = async(data:any):Promise<Order | null> => {
+
     const result = await prisma.order.create({
         data
     })
@@ -27,7 +28,7 @@ const getSingleOrder = async(id:string): Promise<Order | null> => {
 }
 
 
-const updateOrder = async(id:string,data: Partial<Order>): Promise<Order | null> => {
+const updateOrder = async(id:string,data: any): Promise<Order | null> => {
     const result = await prisma.order.update({
         where: {
             id
