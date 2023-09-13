@@ -4,6 +4,7 @@ import { categoryRoutes } from '../modules/category/category.route';
 import { bookRoutes } from '../modules/book/book.route';
 import { reviewAndRatingRoutes } from '../modules/reviewAndRating/reviewAndRating.route';
 import { orderRoutes } from '../modules/order/order.route';
+import { orderedBookRoutes } from '../modules/orderedBook/orderedBook.route';
 
 
 
@@ -29,6 +30,10 @@ const moduleRoutes = [
   {
     path:'/order',
     route: orderRoutes
+  },
+  {
+    path:'/ordered-book',
+    route: orderedBookRoutes
   }
   
 ];
