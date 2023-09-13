@@ -54,8 +54,8 @@ CREATE TABLE "reviews_and_ratings" (
 CREATE TABLE "orders" (
     "id" TEXT NOT NULL,
     "user_id" TEXT NOT NULL,
-    "ordered_books" TEXT NOT NULL,
-    "status" "OrderStatus" NOT NULL,
+    "ordered_books" JSONB[],
+    "status" "OrderStatus" NOT NULL DEFAULT 'PENDING',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "orders_pkey" PRIMARY KEY ("id")

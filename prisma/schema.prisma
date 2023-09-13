@@ -52,9 +52,7 @@ model Book {
 
   @@map("books")
 }
-// 4e708df8-96af-4622-be11-9fb1494e4266
-// 0518d9cc-f50b-4078-bea5-5adc6710b067
-// 31ef9016-aee3-43bf-9856-1594928803e
+
 model ReviewAndRating {
   id     String @id @default(uuid())
   review String
@@ -71,8 +69,8 @@ model Order {
   id           String        @id @default(uuid())
   userId       String        @map("user_id")
   user         User          @relation(fields: [userId], references: [id])
-  orderedBooks String        @map("ordered_books")
-  status       OrderStatus
+  orderedBooks Json[]        @map("ordered_books")
+  status       OrderStatus   @default(PENDING)
   createdAt    DateTime      @default(now())
   orderedBook  OrderedBook[]
 
