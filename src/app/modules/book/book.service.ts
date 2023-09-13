@@ -3,7 +3,10 @@ import prisma from '../../../shared/prisma';
 
 const createBook = async(data:Book): Promise<Book> => {
     const result = await prisma.book.create({
-        data
+        data,
+        include:{
+            category:true
+        }
     })
     return result;
 }
