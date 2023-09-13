@@ -1,3 +1,4 @@
+import { IPaginationOptions } from './book.interface';
 import { RequestHandler } from 'express';
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';

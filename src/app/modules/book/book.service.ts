@@ -64,9 +64,6 @@ const getAllBooks = async(options:IPaginationOptions): Promise<Book[]> => {
         skip,
         take,
         orderBy: { [sortBy]: sortOrder }
-        // sortBy && sortOrder
-        // ? { [sortBy]: sortOrder }
-        // : { price: 'asc' } 
     });
     return result;
 }
