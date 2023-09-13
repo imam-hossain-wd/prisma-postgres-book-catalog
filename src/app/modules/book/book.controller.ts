@@ -16,7 +16,9 @@ const createBook: RequestHandler = catchAsync(async (req, res) => {
   });
 });
 const getAllBooks: RequestHandler = catchAsync(async (req, res) => {
-  const result = await bookService.getAllBooks();
+  const options = req.query;
+  console.log(options);
+  const result = await bookService.getAllBooks(options);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

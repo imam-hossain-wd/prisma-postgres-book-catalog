@@ -1,5 +1,6 @@
 import {Book }from '@prisma/client';
 import prisma from '../../../shared/prisma';
+import { IPaginationOptions } from './book.interface';
 
 const createBook = async(data:Book): Promise<Book> => {
     const result = await prisma.book.create({
@@ -11,8 +12,43 @@ const createBook = async(data:Book): Promise<Book> => {
     return result;
 }
 
-const getAllBooks = async(): Promise<Book[]> => {
-    const result = await prisma.book.findMany();
+const getAllBooks = async(options:IPaginationOptions): Promise<Book[]> => {
+    const{page, size, sortBy, sortOrder,minPrice, maxPrice, searchTerm}=options;
+    const bookSize = parseInt(size);
+    const bookPage = parseInt(page);
+    const skip = bookSize * bookPage - bookSize || 0;
+    const take = bookSize || 10;
+
+    const result = await prisma.book.findMany({
+        skip,
+        take,
+        orderBy: {
+            [sortBy]: sortOrder,
+          },
+          where: {
+            OR: [
+                {
+                    title: {
+                        contains: searchTerm,
+                        mode: 'insensitive'
+                    }
+                },
+                {
+                    author: {
+                        contains: searchTerm,
+                        mode: 'insensitive'
+                    }
+                },
+                {
+                    genre: {
+                        contains: searchTerm,
+                        mode: 'insensitive'
+                    }
+                }
+               
+            ]
+        }
+    });
     return result;
 }
 

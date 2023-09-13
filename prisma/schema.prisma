@@ -56,7 +56,7 @@ model Book {
 model ReviewAndRating {
   id     String @id @default(uuid())
   review String
-  rating String
+  rating Int
   userId String @map("user_id")
   user   User   @relation(fields: [userId], references: [id])
   bookId String @map("book_id")
