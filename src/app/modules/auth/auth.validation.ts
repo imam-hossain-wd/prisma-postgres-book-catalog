@@ -29,20 +29,21 @@ const createUserZodSchema = z.object({
   }),
 });
 
-
-const updateUserZodSchema =z.object({
+const loginUserZodSchema = z.object({
   body: z.object({
-    name: z.string().optional(),
-    email: z.string().optional(),
-    password: z.string().optional(),
-    role: z.string().optional(),
-    contactNo: z.string().optional(),
-    address: z.string().optional(),
-    profileImg: z.string().optional()
-  })
+    email: z.string({
+      required_error: 'email is required',
+    }),
+    password: z.string({
+      required_error: 'password is required',
+    })
+  }),
 });
 
-export const UserValidation = {
+
+
+
+export const AuthValidation = {
   createUserZodSchema,
-  updateUserZodSchema
+  loginUserZodSchema
 };
