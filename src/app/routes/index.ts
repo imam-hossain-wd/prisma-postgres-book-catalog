@@ -5,12 +5,18 @@ import { bookRoutes } from '../modules/book/book.route';
 import { reviewAndRatingRoutes } from '../modules/reviewAndRating/reviewAndRating.route';
 import { orderRoutes } from '../modules/order/order.route';
 import { orderedBookRoutes } from '../modules/orderedBook/orderedBook.route';
+import { authRoutes } from '../modules/auth/auth.route';
 
 
 
 const router = express.Router();
 
 const moduleRoutes = [
+  {
+    path:"/auth",
+    route:authRoutes
+
+  },
   {
     path: "/user",
     route: userRoutes
