@@ -43,7 +43,7 @@ CREATE TABLE "books" (
 CREATE TABLE "reviews_and_ratings" (
     "id" TEXT NOT NULL,
     "review" TEXT NOT NULL,
-    "rating" TEXT NOT NULL,
+    "rating" INTEGER NOT NULL,
     "user_id" TEXT NOT NULL,
     "book_id" TEXT NOT NULL,
 

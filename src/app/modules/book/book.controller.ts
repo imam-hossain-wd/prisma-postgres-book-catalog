@@ -1,4 +1,3 @@
-import { IPaginationOptions } from './book.interface';
 import { RequestHandler } from 'express';
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
@@ -16,6 +15,7 @@ const createBook: RequestHandler = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
 const getAllBooks: RequestHandler = catchAsync(async (req, res) => {
   const options = req.query;
   const result = await bookService.getAllBooks(options);
@@ -64,4 +64,5 @@ export const bookController = {
   getSingleBook,
   updateBook,
   deleteBook,
+
 };

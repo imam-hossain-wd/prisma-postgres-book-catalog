@@ -17,8 +17,20 @@ const createOrder: RequestHandler = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
+
 const getAllOrders: RequestHandler = catchAsync(async (req, res) => {
   const result = await orderService.getAllOrders();
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Order retrived successfully',
+    data: result,
+  });
+});
+const getMyOrder: RequestHandler = catchAsync(async (req, res) => {
+  const token = req.headers.authorization;
+  const result = await orderService.myOrder(token)
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -64,4 +76,5 @@ export const orderController = {
   getSingleOrder,
   updateOrder,
   deleteOrder,
+  getMyOrder
 };

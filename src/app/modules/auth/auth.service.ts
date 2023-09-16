@@ -5,6 +5,7 @@ import httpStatus from 'http-status';
 import { jwtHelpers } from '../../../helpers/jwtHelpers';
 import config from '../../config';
 import { Secret } from 'jsonwebtoken';
+import { IRefreshTokenResponse } from './auth.interface';
 
 const createUser = async (data: User): Promise<User> => {
   const result = await prisma.user.create({
@@ -12,6 +13,7 @@ const createUser = async (data: User): Promise<User> => {
   });
   return result;
 };
+
 const loginUser = async (data: User) => {
   const { email, password } = data;
 
@@ -46,7 +48,50 @@ const loginUser = async (data: User) => {
   };
 };
 
+
+const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
+
+  let verifiedToken = null;
+  try {
+    verifiedToken = jwtHelpers.verifyToken(
+      token,
+      config.jwt_refresh_secret as Secret
+    );
+  } catch (err) {
+    throw new ApiError(httpStatus.FORBIDDEN, 'Invalid Refresh Token');
+  }
+
+  console.log(verifiedToken, 'verified token');
+
+  const { id, role} = verifiedToken;
+
+
+  const isUserExist = await prisma.user.findFirst({
+    where: {
+      id
+    },
+  });
+
+  if (!isUserExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist');
+  }
+
+  const newAccessToken = jwtHelpers.createToken(
+    {
+     id,
+    role,
+    },
+    config.jwt_secret as Secret,
+    config.jwt_expire_in as string
+  );
+
+  return {
+    accessToken: newAccessToken,
+  };
+};
+
 export const authService = {
   createUser,
   loginUser,
+  refreshToken
 };

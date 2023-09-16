@@ -3,14 +3,22 @@ import { authController } from "./auth.controller";
 import validateRequest from "../../middlewares/validationRequest";
 import { AuthValidation } from "./auth.validation";
 
+
 const router = Router();
 
-router.post('/signup',
+router.post('/singup',
 validateRequest(AuthValidation.createUserZodSchema),
-authController.createUser)
+authController.createUser);
 
 router.post('/singin',
 validateRequest(AuthValidation.loginUserZodSchema),
 authController.loginUser)
+
+router.post(
+    '/refresh-token',
+    validateRequest(AuthValidation.refreshTokenZodSchema),
+    authController.refreshToken
+  );
+  
 
 export const authRoutes = router;

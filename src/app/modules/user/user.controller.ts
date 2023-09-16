@@ -4,17 +4,6 @@ import { userService } from './user.service';
 import sendResponse from '../../../shared/sendResponse';
 import httpStatus from 'http-status';
 
-const createUser: RequestHandler = catchAsync(async (req, res) => {
-  const data = req.body;
-  console.log(req.body,'bbody');
-  const result = await userService.createUser(data);
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'user create successfully',
-    data: result,
-  });
-});
 const getAllUsers: RequestHandler = catchAsync(async (req, res) => {
   const result = await userService.getAllUsers();
   sendResponse(res, {
@@ -24,6 +13,19 @@ const getAllUsers: RequestHandler = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const getProfile: RequestHandler = catchAsync(async (req, res) => {
+  const token = req.headers.authorization;
+  console.log(token);
+  const result = await userService.getProfile(token);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'user retrived successfully',
+    data: result,
+  });
+});
+
+
 const getSingleUser: RequestHandler = catchAsync(async (req, res) => {
   const { id } = req.params;
   const result = await userService.getSingleUser(id);
@@ -57,9 +59,9 @@ const deleteUser: RequestHandler = catchAsync(async (req, res) => {
 });
 
 export const userController = {
-  createUser,
   getAllUsers,
   getSingleUser,
   updateUser,
   deleteUser,
+  getProfile
 };

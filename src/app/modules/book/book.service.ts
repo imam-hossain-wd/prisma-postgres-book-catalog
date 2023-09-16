@@ -1,6 +1,5 @@
 import {Book, Prisma }from '@prisma/client';
 import prisma from '../../../shared/prisma';
-import { IPaginationOptions } from './book.interface';
 import { BookSearchAbleFields } from './book.constrants';
 
 const createBook = async(data:Book): Promise<Book> => {
@@ -13,8 +12,9 @@ const createBook = async(data:Book): Promise<Book> => {
     return result;
 }
 
-const getAllBooks = async(options:IPaginationOptions): Promise<Book[]> => {
-    const{page, size, sortBy, sortOrder,searchTerm, ...filterData}=options;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getAllBooks = async(options:any): Promise<Book[]> => {
+    const{page, size, sortBy, sortOrder,searchTerm}=options;
     // const {minPrice, maxPrice,category}= filterData;
  
     // const mnprice= parseFloat(minPrice)

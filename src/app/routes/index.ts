@@ -12,9 +12,10 @@ import { authRoutes } from '../modules/auth/auth.route';
 const router = express.Router();
 
 const moduleRoutes = [
+
   {
     path:"/auth",
-    route:authRoutes
+    route: authRoutes
 
   },
   {
@@ -22,7 +23,7 @@ const moduleRoutes = [
     route: userRoutes
   },
   {
-    path:"/category",
+    path:"/categories",
     route:categoryRoutes
   },
   {

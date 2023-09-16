@@ -4,6 +4,7 @@ import sendResponse from '../../../shared/sendResponse';
 import httpStatus from 'http-status';
 import { authService } from './auth.service';
 import config from '../../config';
+import { IRefreshTokenResponse } from './auth.interface';
 
 const createUser: RequestHandler = catchAsync(async (req, res) => {
   const data = req.body;
@@ -36,7 +37,28 @@ const loginUser: RequestHandler = catchAsync(async (req, res) => {
   });
 });
 
+const refreshToken = catchAsync(async (req: Request, res: Response) => {
+  const { refreshToken } = req.cookies;
+
+  const result = await authService.refreshToken(refreshToken);
+
+  const cookieOptions = {
+    secure: config.env === 'production',
+    httpOnly: true,
+  };
+
+  res.cookie('refreshToken', refreshToken, cookieOptions);
+  sendResponse<IRefreshTokenResponse>(res, {
+    statusCode: 200,
+    success: true,
+    message: 'get refresh token successfully !',
+    data: result,
+  });
+});
+
+
 export const authController = {
   createUser,
   loginUser,
+  refreshToken
 };
