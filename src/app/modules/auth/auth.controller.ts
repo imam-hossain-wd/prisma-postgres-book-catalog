@@ -4,7 +4,7 @@ import sendResponse from '../../../shared/sendResponse';
 import httpStatus from 'http-status';
 import { authService } from './auth.service';
 import config from '../../config';
-import { IRefreshTokenResponse } from './auth.interface';
+import {IRefreshTokenResponse } from './auth.interface';
 
 const createUser: RequestHandler = catchAsync(async (req, res) => {
   const data = req.body;
@@ -37,7 +37,7 @@ const loginUser: RequestHandler = catchAsync(async (req, res) => {
   });
 });
 
-const refreshToken = catchAsync(async (req: Request, res: Response) => {
+const refreshToken:RequestHandler = catchAsync(async (req, res) => {
   const { refreshToken } = req.cookies;
 
   const result = await authService.refreshToken(refreshToken);

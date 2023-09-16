@@ -5,7 +5,7 @@ import httpStatus from 'http-status';
 import { jwtHelpers } from '../../../helpers/jwtHelpers';
 import config from '../../config';
 import { Secret } from 'jsonwebtoken';
-import { IRefreshTokenResponse } from './auth.interface';
+import { ILoginUser, ILoginUserResponse, IRefreshTokenResponse } from './auth.interface';
 
 const createUser = async (data: User): Promise<User> => {
   const result = await prisma.user.create({
@@ -14,7 +14,7 @@ const createUser = async (data: User): Promise<User> => {
   return result;
 };
 
-const loginUser = async (data: User) => {
+const loginUser = async (data: ILoginUser): Promise<ILoginUserResponse>=> {
   const { email, password } = data;
 
   const isUserExist = await prisma.user.findFirst({

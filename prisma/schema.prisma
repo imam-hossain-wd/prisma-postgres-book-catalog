@@ -72,7 +72,7 @@ model Order {
   user         User          @relation(fields: [userId], references: [id])
   orderedBooks Json[]        @map("ordered_books")
   status       OrderStatus   @default(PENDING)
-  createdAt    DateTime      @default(now())
+  createdAt    DateTime      @default(now()) @map("created_at")
   orderedBook  OrderedBook[]
 
   @@map("orders")
