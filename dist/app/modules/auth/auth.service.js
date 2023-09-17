@@ -43,7 +43,34 @@ const loginUser = (data) => __awaiter(void 0, void 0, void 0, function* () {
         refreshToken,
     };
 });
+const refreshToken = (token) => __awaiter(void 0, void 0, void 0, function* () {
+    let verifiedToken = null;
+    try {
+        verifiedToken = jwtHelpers_1.jwtHelpers.verifyToken(token, config_1.default.jwt_refresh_secret);
+    }
+    catch (err) {
+        throw new ApiError_1.default(http_status_1.default.FORBIDDEN, 'Invalid Refresh Token');
+    }
+    console.log(verifiedToken, 'verified token');
+    const { id, role } = verifiedToken;
+    const isUserExist = yield prisma_1.default.user.findFirst({
+        where: {
+            id
+        },
+    });
+    if (!isUserExist) {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'User does not exist');
+    }
+    const newAccessToken = jwtHelpers_1.jwtHelpers.createToken({
+        id,
+        role,
+    }, config_1.default.jwt_secret, config_1.default.jwt_expire_in);
+    return {
+        accessToken: newAccessToken,
+    };
+});
 exports.authService = {
     createUser,
     loginUser,
+    refreshToken
 };

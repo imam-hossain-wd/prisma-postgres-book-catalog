@@ -7,12 +7,13 @@ const ApiError_1 = __importDefault(require("../../errors/ApiError"));
 const handleValidationError_1 = __importDefault(require("../../errors/handleValidationError"));
 const client_1 = require("@prisma/client");
 const zod_1 = require("zod");
+const handleClientError_1 = __importDefault(require("../../errors/handleClientError"));
 const handleZodError_1 = __importDefault(require("../../errors/handleZodError"));
 const config_1 = __importDefault(require("../config"));
 const globalErrorHandler = (error, req, res, next) => {
     config_1.default.env === 'development'
-        ? console.log(`globalErrorHandler ~~`, { error })
-        : console.log(`globalErrorHandler ~~`, error);
+        ? console.log(` globalErrorHandler ~~`, { error })
+        : console.log(` globalErrorHandler ~~`, error);
     let statusCode = 500;
     let message = 'Something went wrong !';
     let errorMessages = [];
@@ -24,6 +25,12 @@ const globalErrorHandler = (error, req, res, next) => {
     }
     else if (error instanceof zod_1.ZodError) {
         const simplifiedError = (0, handleZodError_1.default)(error);
+        statusCode = simplifiedError.statusCode;
+        message = simplifiedError.message;
+        errorMessages = simplifiedError.errorMessages;
+    }
+    else if (error instanceof client_1.Prisma.PrismaClientKnownRequestError) {
+        const simplifiedError = (0, handleClientError_1.default)(error);
         statusCode = simplifiedError.statusCode;
         message = simplifiedError.message;
         errorMessages = simplifiedError.errorMessages;

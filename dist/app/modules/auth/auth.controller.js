@@ -57,7 +57,23 @@ const loginUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void
         },
     });
 }));
+const refreshToken = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { refreshToken } = req.cookies;
+    const result = yield auth_service_1.authService.refreshToken(refreshToken);
+    const cookieOptions = {
+        secure: config_1.default.env === 'production',
+        httpOnly: true,
+    };
+    res.cookie('refreshToken', refreshToken, cookieOptions);
+    (0, sendResponse_1.default)(res, {
+        statusCode: 200,
+        success: true,
+        message: 'get refresh token successfully !',
+        data: result,
+    });
+}));
 exports.authController = {
     createUser,
     loginUser,
+    refreshToken
 };

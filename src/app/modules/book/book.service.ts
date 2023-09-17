@@ -14,17 +14,11 @@ const createBook = async(data:Book): Promise<Book> => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getAllBooks = async(options:any): Promise<Book[]> => {
-    const{page, size, sortBy, sortOrder,searchTerm}=options;
-    // const {minPrice, maxPrice,category}= filterData;
+    const{page, size, sortBy, sortOrder,searchTerm, ...filterData}=options;
+    const {minPrice, maxPrice,category}= filterData;
  
-    // const mnprice= parseFloat(minPrice)
-    // const mxprice= parseFloat(maxPrice)
-
-    // const filteringData = {
-    //     price:mnprice,
-    //     category
-    // }
-
+    const mnprice= parseFloat(minPrice)
+    const mxprice= parseFloat(maxPrice)
 
     const bookSize = parseInt(size);
     const bookPage = parseInt(page);
@@ -46,18 +40,7 @@ const getAllBooks = async(options:any): Promise<Book[]> => {
         })
     }
 
-    // if (Object.keys(filteringData).length > 0) {
-    //     andConditons.push({
-    //         AND: Object.keys(filteringData).map((key) => ({
-    //             [key]: {
-    //                 equals: (filteringData as any)[key]
-    //             }
-    //         }))
-    //     })
-    // }
-
     const whereConditons: Prisma.BookWhereInput = andConditons.length > 0 ? { AND: andConditons } : {};
-
 
     const result = await prisma.book.findMany({
         where: whereConditons,
@@ -67,6 +50,8 @@ const getAllBooks = async(options:any): Promise<Book[]> => {
     });
     return result;
 }
+
+
 
 
 const getSingleBook = async(id:string): Promise<Book | null> => {

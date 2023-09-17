@@ -9,6 +9,7 @@ const router = Router();
 
 
 router.get('/',
+auth(ENUM_USER_ROLE.ADMIN),
 userController.getAllUsers);
 
 router.get('/profile', userController.getProfile)
