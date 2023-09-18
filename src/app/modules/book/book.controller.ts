@@ -3,6 +3,8 @@ import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 import httpStatus from 'http-status';
 import { bookService } from './book.service';
+import pick from '../../../shared/pick';
+import { BookFilterableFields } from './book.constrants';
 
 
 const createBook: RequestHandler = catchAsync(async (req, res) => {
@@ -17,13 +19,15 @@ const createBook: RequestHandler = catchAsync(async (req, res) => {
 });
 
 const getAllBooks: RequestHandler = catchAsync(async (req, res) => {
-  const options = req.query;
-  const result = await bookService.getAllBooks(options);
+  const filters = pick(req.query,BookFilterableFields);
+  const options = pick(req.query, ['size', 'page', 'sortBy', 'sortOrder']);
+  const result = await bookService.getAllBooks(options, filters);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Book retrived successfully',
-    data: result,
+    meta: result.meta,
+    data: result.data,
   });
 });
 

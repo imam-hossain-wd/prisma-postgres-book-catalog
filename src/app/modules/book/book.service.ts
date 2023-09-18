@@ -1,6 +1,10 @@
-import {Book, Prisma }from '@prisma/client';
+import {Book, Prisma}from '@prisma/client';
 import prisma from '../../../shared/prisma';
-import { BookSearchAbleFields } from './book.constrants';
+import { IOptions, paginationHelpers } from '../../../helpers/paginationHelpers';
+import {  BookSearchAbleFields } from './book.constrants';
+import { IFiltersOption } from './book.interface';
+
+
 
 const createBook = async(data:Book): Promise<Book> => {
     const result = await prisma.book.create({
@@ -12,44 +16,78 @@ const createBook = async(data:Book): Promise<Book> => {
     return result;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getAllBooks = async(options:any): Promise<Book[]> => {
-    const{page, size, sortBy, sortOrder,searchTerm, ...filterData}=options;
-    const {minPrice, maxPrice,category}= filterData;
- 
-    const mnprice= parseFloat(minPrice)
-    const mxprice= parseFloat(maxPrice)
 
-    const bookSize = parseInt(size);
-    const bookPage = parseInt(page);
-    const skip = bookSize * bookPage - bookSize || 0;
-    const take = bookSize || 10;
-
- 
-
-    const andConditons = [];
-
+const getAllBooks = async (options:IOptions, filters:IFiltersOption) => {
+    const { page, size, skip } = paginationHelpers.calculatePagination(options);
+    const { searchTerm,category,...filterData } = filters; 
+    const { sortBy, sortOrder } = options;
+  
+    const minPrice = parseFloat(filterData?.minPrice);
+    const maxPrice = parseFloat(filterData?.maxPrice);
+  
+    const andConditions = [];
+  
     if (searchTerm) {
-        andConditons.push({
-            OR: BookSearchAbleFields.map((field) => ({
-                [field]: {
-                    contains: searchTerm,
-                    mode: 'insensitive'
-                }
-            }))
-        })
+      andConditions.push({
+        OR: BookSearchAbleFields.map((field) => ({
+          [field]: {
+            contains: searchTerm,
+            mode: 'insensitive',
+          },
+        })),
+      });
+    }
+  
+    if (!isNaN(minPrice) && !isNaN(maxPrice)) {
+      andConditions.push({
+        price: {
+          gte: minPrice,
+          lte: maxPrice,
+        },
+      });
+    } else if (!isNaN(minPrice)) {
+      andConditions.push({
+        price: {
+          gte: minPrice,
+        },
+      });
+    } else if (!isNaN(maxPrice)) {
+      andConditions.push({
+        price: {
+          lte: maxPrice,
+        },
+      });
     }
 
-    const whereConditons: Prisma.BookWhereInput = andConditons.length > 0 ? { AND: andConditons } : {};
+    if (category) {
+      andConditions.push({
+        categoryId: {
+          equals: category
+        },
+      });
+    }
 
+    const whereConditions: Prisma.BookWhereInput =
+      andConditions.length > 0 ? { AND: andConditions } : {};
+  
     const result = await prisma.book.findMany({
-        where: whereConditons,
-        skip,
-        take,
-        orderBy: { [sortBy]: sortOrder }
+      where: whereConditions,
+      skip,
+      take: size,
+      orderBy: { [sortBy]: sortOrder },
     });
-    return result;
-}
+
+    const total = await prisma.book.count({
+      where: whereConditions,
+    });
+  
+    const totalPage = Math.ceil(total / size);
+
+    return {
+      data:result,
+      meta:{page, size,total, totalPage}
+    }
+  };
 
 
 
