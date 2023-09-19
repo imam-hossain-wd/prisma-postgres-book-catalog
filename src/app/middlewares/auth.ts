@@ -10,9 +10,8 @@ const auth =
   (...requiredRoles: string[]) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      console.log('Auth middleware executed');
-
       const token = req.headers.authorization;
+      // console.log(token, 'toknnnn');
       if (!token) {
         throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized');
       }

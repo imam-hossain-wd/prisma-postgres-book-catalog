@@ -18,9 +18,9 @@ const createOrder: RequestHandler = catchAsync(async (req, res) => {
   });
 });
 
-
 const getAllOrders: RequestHandler = catchAsync(async (req, res) => {
-  const result = await orderService.getAllOrders();
+  const token = req.headers.authorization as string;
+  const result = await orderService.getAllOrders(token);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -28,19 +28,11 @@ const getAllOrders: RequestHandler = catchAsync(async (req, res) => {
     data: result,
   });
 });
-const getMyOrder: RequestHandler = catchAsync(async (req, res) => {
-  const token = req.headers.authorization;
-  const result = await orderService.myOrder(token)
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Order retrived successfully',
-    data: result,
-  });
-});
+
 const getSingleOrder: RequestHandler = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const result = await orderService.getSingleOrder(id);
+  const token = req.headers.authorization as string;
+  const result = await orderService.getSingleOrder(id, token);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -61,7 +53,8 @@ const updateOrder: RequestHandler = catchAsync(async (req, res) => {
 });
 const deleteOrder: RequestHandler = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const result = await orderService.deleteOrder(id);
+  const token = req.headers.authorization as string;
+  const result = await orderService.deleteOrder(id, token);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -76,5 +69,4 @@ export const orderController = {
   getSingleOrder,
   updateOrder,
   deleteOrder,
-  getMyOrder
 };

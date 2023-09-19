@@ -11,7 +11,7 @@ const createOrderZodSchema = zod_1.z.object({
         orderedBooks: zod_1.z.array(zod_1.z.unknown()).nonempty({
             message: 'orderedBooks is required and must not be empty',
         }),
-        status: zod_1.z.enum([client_1.OrderStatus.DEVIVERED, client_1.OrderStatus.PENDING, client_1.OrderStatus.SHIPPED], {
+        status: zod_1.z.enum([client_1.OrderStatus.pending, client_1.OrderStatus.shipped, client_1.OrderStatus.delivered], {
             required_error: 'status is required and must be one of PENDING, PROCESSING, SHIPPED, or DELIVERED'
         }),
     }),
@@ -20,7 +20,7 @@ const updateOrderZodSchema = zod_1.z.object({
     body: zod_1.z.object({
         userId: zod_1.z.string().optional(),
         orderedBooks: zod_1.z.array(zod_1.z.unknown()).optional(),
-        status: zod_1.z.enum([client_1.OrderStatus.DEVIVERED, client_1.OrderStatus.PENDING, client_1.OrderStatus.SHIPPED]).optional(),
+        status: zod_1.z.enum([client_1.OrderStatus.delivered, client_1.OrderStatus.pending, client_1.OrderStatus.shipped]).optional(),
     }),
 });
 exports.OrderValidation = {

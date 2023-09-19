@@ -28,17 +28,8 @@ const createOrder = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, vo
     });
 }));
 const getAllOrders = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield order_service_1.orderService.getAllOrders();
-    (0, sendResponse_1.default)(res, {
-        statusCode: http_status_1.default.OK,
-        success: true,
-        message: 'Order retrived successfully',
-        data: result,
-    });
-}));
-const getMyOrder = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.headers.authorization;
-    const result = yield order_service_1.orderService.myOrder(token);
+    const result = yield order_service_1.orderService.getAllOrders(token);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
@@ -46,9 +37,20 @@ const getMyOrder = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
         data: result,
     });
 }));
+// const getMyOrder: RequestHandler = catchAsync(async (req, res) => {
+//   const token = req.headers.authorization;
+//   const result = await orderService.myOrder(token)
+//   sendResponse(res, {
+//     statusCode: httpStatus.OK,
+//     success: true,
+//     message: 'Order retrived successfully',
+//     data: result,
+//   });
+// });
 const getSingleOrder = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const result = yield order_service_1.orderService.getSingleOrder(id);
+    const token = req.headers.authorization;
+    const result = yield order_service_1.orderService.getSingleOrder(id, token);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
@@ -83,5 +85,5 @@ exports.orderController = {
     getSingleOrder,
     updateOrder,
     deleteOrder,
-    getMyOrder
+    // getMyOrder
 };

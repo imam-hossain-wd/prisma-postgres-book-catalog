@@ -11,7 +11,7 @@ const user_validation_1 = require("./user.validation");
 const auth_1 = __importDefault(require("../../middlewares/auth"));
 const user_1 = require("../../../enums/user");
 const router = (0, express_1.Router)();
-router.get('/', user_controller_1.userController.getAllUsers);
+router.get('/', (0, auth_1.default)(user_1.ENUM_USER_ROLE.ADMIN), user_controller_1.userController.getAllUsers);
 router.get('/profile', user_controller_1.userController.getProfile);
 router.get('/:id', (0, auth_1.default)(user_1.ENUM_USER_ROLE.ADMIN), user_controller_1.userController.getSingleUser);
 router.patch('/:id', (0, auth_1.default)(user_1.ENUM_USER_ROLE.ADMIN), (0, validationRequest_1.default)(user_validation_1.UserValidation.updateUserZodSchema), user_controller_1.userController.updateUser);

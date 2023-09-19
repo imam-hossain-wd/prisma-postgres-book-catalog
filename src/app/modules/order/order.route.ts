@@ -11,16 +11,22 @@ import { OrderValidation } from "./orderValidation";
 const router = Router();
 
 router.post('/create-order',
+auth(ENUM_USER_ROLE.CUSTOMER),
 validateRequest(OrderValidation.createOrderZodSchema),
 orderController.createOrder)
-router.get('/my-orders', orderController.getMyOrder)
+
+
 
 router.get('/',
 auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.CUSTOMER),
  orderController.getAllOrders)
 
+//  router.get('/my',
+//  auth(ENUM_USER_ROLE.CUSTOMER),
+//  orderController.getMyOrder)
+
 router.get('/:id',
-auth(ENUM_USER_ROLE.ADMIN),
+auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.CUSTOMER),
 orderController.getSingleOrder)
 
 router.patch('/:id',

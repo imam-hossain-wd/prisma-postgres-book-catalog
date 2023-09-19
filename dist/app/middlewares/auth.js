@@ -18,8 +18,8 @@ const jwtHelpers_1 = require("../../helpers/jwtHelpers");
 const config_1 = __importDefault(require("../config"));
 const auth = (...requiredRoles) => (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log('Auth middleware executed');
         const token = req.headers.authorization;
+        // console.log(token, 'toknnnn');
         if (!token) {
             throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, 'You are not authorized');
         }

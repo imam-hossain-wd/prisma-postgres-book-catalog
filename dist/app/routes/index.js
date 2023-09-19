@@ -18,7 +18,7 @@ const moduleRoutes = [
         route: auth_route_1.authRoutes
     },
     {
-        path: "/user",
+        path: "/users",
         route: user_route_1.userRoutes
     },
     {
@@ -26,7 +26,7 @@ const moduleRoutes = [
         route: category_route_1.categoryRoutes
     },
     {
-        path: '/book',
+        path: '/books',
         route: book_route_1.bookRoutes
     },
     {
@@ -34,7 +34,7 @@ const moduleRoutes = [
         route: reviewAndRating_route_1.reviewAndRatingRoutes
     },
     {
-        path: '/order',
+        path: '/orders',
         route: order_route_1.orderRoutes
     },
     {

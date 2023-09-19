@@ -31,6 +31,19 @@ const getAllBooks: RequestHandler = catchAsync(async (req, res) => {
   });
 });
 
+const getCategoryIdBook: RequestHandler = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  console.log(id, 'categoryiiidd');
+  const result = await bookService.getCategoryIdBook(id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Books with associated category data fetched successfully',
+    meta:result.meta,
+    data: result.data,
+  });
+});
+
 const getSingleBook: RequestHandler = catchAsync(async (req, res) => {
   const { id } = req.params;
   const result = await bookService.getSingleBook(id);
@@ -66,6 +79,7 @@ const deleteBook: RequestHandler = catchAsync(async (req, res) => {
 export const bookController = {
   createBook,
   getAllBooks,
+  getCategoryIdBook,
   getSingleBook,
   updateBook,
   deleteBook,

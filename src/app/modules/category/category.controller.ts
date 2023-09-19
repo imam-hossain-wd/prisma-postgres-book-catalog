@@ -46,6 +46,7 @@ const updateCategory: RequestHandler = catchAsync(async (req, res) => {
 });
 const deleteCategory: RequestHandler = catchAsync(async (req, res) => {
   const { id } = req.params;
+  console.log('clicked,,cccc');
   const result = await categoryService.deleteCategory(id);
   sendResponse(res, {
     statusCode: httpStatus.OK,

@@ -25,6 +25,11 @@ router.get(
   auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.CUSTOMER),
   bookController.getSingleBook
 );
+router.get(
+  '/:id/category',
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.CUSTOMER),
+  bookController.getCategoryIdBook
+);
 
 router.patch(
   '/:id',

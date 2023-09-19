@@ -1,7 +1,7 @@
 export type IOptions = {
     page?: number;
     size?: number;
-    sortBy: string;
+    sortBy?: string;
     sortOrder?: string;
   };
   
