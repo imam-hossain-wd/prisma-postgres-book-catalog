@@ -27,14 +27,12 @@ const loginUser: RequestHandler = catchAsync(async (req, res) => {
   };
 
   res.cookie('refreshToken', refreshToken, cookieOptions);
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
+  res.send({
     success: true,
-    message: 'user login successfully',
-    data: {
-      accessToken: others,
-    },
-  });
+    statusCode: httpStatus.OK,
+    message: 'User signin successfully!',
+    token: others.accessToken
+  })
 });
 
 const refreshToken:RequestHandler = catchAsync(async (req, res) => {

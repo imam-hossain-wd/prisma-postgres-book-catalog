@@ -13,19 +13,6 @@ const getAllUsers: RequestHandler = catchAsync(async (req, res) => {
     data: result,
   });
 });
-const getProfile: RequestHandler = catchAsync(async (req, res) => {
-  const token = req.headers.authorization;
-  console.log(token);
-  const result = await userService.getProfile(token);
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'user retrived successfully',
-    data: result,
-  });
-});
-
-
 const getSingleUser: RequestHandler = catchAsync(async (req, res) => {
   const { id } = req.params;
   const result = await userService.getSingleUser(id);
@@ -63,5 +50,4 @@ export const userController = {
   getSingleUser,
   updateUser,
   deleteUser,
-  getProfile
 };

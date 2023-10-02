@@ -12,8 +12,6 @@ router.get('/',
 auth(ENUM_USER_ROLE.ADMIN),
 userController.getAllUsers);
 
-router.get('/profile', userController.getProfile)
-
 router.get('/:id',
 auth(ENUM_USER_ROLE.ADMIN),
 userController.getSingleUser)

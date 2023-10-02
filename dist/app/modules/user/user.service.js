@@ -14,26 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userService = void 0;
 const prisma_1 = __importDefault(require("../../../shared/prisma"));
-const jwtHelpers_1 = require("../../../helpers/jwtHelpers");
-const config_1 = __importDefault(require("../../config"));
-const ApiError_1 = __importDefault(require("../../../errors/ApiError"));
-const http_status_1 = __importDefault(require("http-status"));
 const getAllUsers = () => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield prisma_1.default.user.findMany();
-    return result;
-});
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getProfile = (token) => __awaiter(void 0, void 0, void 0, function* () {
-    if (!token) {
-        throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, 'You are not authorized');
-    }
-    const user = jwtHelpers_1.jwtHelpers.verifyToken(token, config_1.default.jwt_secret);
-    const { id } = user;
-    const result = yield prisma_1.default.user.findFirst({
-        where: {
-            id,
-        },
-    });
     return result;
 });
 const getSingleUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
@@ -66,5 +48,4 @@ exports.userService = {
     getSingleUser,
     updateUser,
     deleteUser,
-    getProfile,
 };

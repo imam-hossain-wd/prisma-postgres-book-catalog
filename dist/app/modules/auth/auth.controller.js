@@ -48,13 +48,11 @@ const loginUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void
         httpOnly: true,
     };
     res.cookie('refreshToken', refreshToken, cookieOptions);
-    (0, sendResponse_1.default)(res, {
-        statusCode: http_status_1.default.OK,
+    res.send({
         success: true,
-        message: 'user login successfully',
-        data: {
-            accessToken: others,
-        },
+        statusCode: http_status_1.default.OK,
+        message: 'User signin successfully!',
+        token: others.accessToken
     });
 }));
 const refreshToken = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {

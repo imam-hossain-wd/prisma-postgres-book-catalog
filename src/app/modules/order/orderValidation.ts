@@ -1,29 +1,28 @@
-import { OrderStatus } from '@prisma/client';
 import { z } from 'zod';
+
+const bookSchema = z.object({
+  bookId: z.string(),
+  quantity: z.number().int().positive(),
+});
 
 const createOrderZodSchema = z.object({
   body: z.object({
-    userId: z.string({
-      required_error: 'userId is required',
-    }),
-    orderedBooks: z.array(z.unknown()).nonempty({
-        message: 'orderedBooks is required and must not be empty',
-      }),
-    status:z.enum([OrderStatus.pending, OrderStatus.shipped, OrderStatus.delivered],{
-        required_error: 'status is required and must be one of PENDING, PROCESSING, SHIPPED, or DELIVERED'
-    }),
+    orderedBooks: z.array(bookSchema)
   }),
+});
+
+const updatedBookSchema = z.object({
+  bookId: z.string().optional(),
+  quantity: z.number().int().positive().optional(),
 });
 
 const updateOrderZodSchema = z.object({
     body: z.object({
-        userId: z.string().optional(),
-        orderedBooks: z.array(z.unknown()).optional(),
-        status:z.enum([OrderStatus.delivered, OrderStatus.pending, OrderStatus.shipped]).optional(),
+      orderedBooks: z.array(updatedBookSchema)
       }),
 });
 
 export const OrderValidation = {
-    createOrderZodSchema,
+  createOrderZodSchema,
     updateOrderZodSchema,
 };

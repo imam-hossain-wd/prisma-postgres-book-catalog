@@ -8,9 +8,14 @@ import { Secret } from 'jsonwebtoken';
 
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const createOrder = async (data: any): Promise<Order | null> => {
+const createOrder = async (data:any, token:string): Promise<Order | null> => {
+  const user = jwtHelpers.verifyToken(token, config.jwt_secret as Secret);
+  const OrderData = {
+    userId: user.id,
+    orderedBooks:data.orderedBooks
+  }
   const result = await prisma.order.create({
-    data,
+    data:OrderData,
   });
   return result;
 };
