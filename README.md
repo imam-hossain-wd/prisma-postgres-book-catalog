@@ -10,10 +10,11 @@ Use Zod for validation
 
 
 Application Routes:
+ https://book-catalog-postgres.vercel.app/api/v1/auth/signup
 
-root-url : https://book-catalog-postgres.vercel.app/api/v1/
+root-url : https://book-catalog-postgres.vercel.app/
 
-singup : https://book-catalog-postgres.vercel.app/api/v1/auth/singup
+signup : https://book-catalog-postgres.vercel.app/api/v1/auth/signup
 singin : https://book-catalog-postgres.vercel.app/api/v1/auth/singin
 refresh-token: https://book-catalog-postgres.vercel.app/api/v1/auth/refresh-token
 
