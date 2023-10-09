@@ -69,9 +69,9 @@ app.use('/api/v1/profile', (req, res, next) => __awaiter(void 0, void 0, void 0,
     }
 }));
 app.use('/', (req, res, next) => {
-    res.status(http_status_1.default.NOT_FOUND).json({
-        success: false,
-        message: 'welcome to our server',
+    res.status(http_status_1.default.OK).json({
+        success: true,
+        message: 'welcome to our book catalog server',
     });
     next();
 });

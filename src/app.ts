@@ -57,9 +57,9 @@ catch(error){
 
 
 app.use('/', (req: Request, res: Response, next: NextFunction) => {
-  res.status(httpStatus.NOT_FOUND).json({
-    success: false,
-    message: 'welcome to our server',
+  res.status(httpStatus.OK).json({
+    success: true,
+    message: 'welcome to our book catalog server',
   });
   next();
 });
